@@ -1,0 +1,14 @@
+node_modules
+.env
+.env.*
+.git
+.gitignore
+
+*.dump
+*.sql.gz
+*.sql.bak
+
+*.key
+*.pem
+*.log
+*.tmp

@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital de Diagnóstico - Solicitudes</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #243447;
+        }
+
+        header {
+            background: #126782;
+            color: white;
+            text-align: center;
+            padding: 28px 15px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        main {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px #00000012;
+        }
+
+        h2 {
+            color: #126782;
+            margin-top: 0;
+        }
+
+        .campos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .ancho-completo {
+            grid-column: 1 / -1;
+        }
+
+        .acciones {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 5px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .principal {
+            background: #126782;
+            color: white;
+        }
+
+        .secundario {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .editar {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .eliminar {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 13px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #e8f3f7;
+        }
+
+        td button {
+            margin: 2px;
+        }
+
+        .mensaje {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            background: #e2e8f0;
+        }
+
+        @media (max-width: 700px) {
+            .campos {
+                grid-template-columns: 1fr;
+            }
+
+            .ancho-completo {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Hospital de Diagnóstico</h1>
+        <p>Sistema de Gestión de Solicitudes de Servicios</p>
+    </header>
+
+    <main>
+        <section class="tarjeta">
+            <h2 id="tituloFormulario">Registrar nueva solicitud</h2>
+
+            <form id="formulario">
+                <div class="campos">
+
+                    <div>
+                        <label for="solicitante">Solicitante</label>
+                        <input id="solicitante" required maxlength="150">
+                    </div>
+
+                    <div>
+                        <label for="servicio">Servicio solicitado</label>
+                        <input id="servicio" required maxlength="150"
+                               placeholder="Ej. Ultrasonografía">
+                    </div>
+
+                    <div class="ancho-completo">
+                        <label for="descripcion">Descripción</label>
+                        <textarea id="descripcion" required></textarea>
+                    </div>
+
+                    <div>
+                        <label for="prioridad">Prioridad</label>
+                        <select id="prioridad">
+                            <option>Baja</option>
+                            <option selected>Normal</option>
+                            <option>Alta</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="estado">Estado</label>
+                        <select id="estado" disabled>
+                            <option>Pendiente</option>
+                            <option>En proceso</option>
+                            <option>Completada</option>
+                            <option>Cancelada</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="acciones">
+                    <button class="principal" type="submit"
+                            id="botonGuardar">
+                        Guardar solicitud
+                    </button>
+
+                    <button class="secundario" type="button"
+                            id="botonCancelar" hidden>
+                        Cancelar edición
+                    </button>
+                </div>
+
+                <p id="mensaje" class="mensaje" role="status"></p>
+            </form>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Solicitudes registradas</h2>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Solicitante</th>
+                            <th>Servicio</th>
+                            <th>Prioridad</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaSolicitudes">
+                        <tr>
+                            <td colspan="7">Cargando solicitudes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+</body>
+</html>

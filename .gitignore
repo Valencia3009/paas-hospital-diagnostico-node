@@ -1,0 +1,20 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno y contraseñas
+.env
+.env.*
+!.env.example
+
+# Respaldos de bases de datos
+*.dump
+*.sql.gz
+*.sql.bak
+
+# Certificados y claves privadas
+*.key
+*.pem
+
+# Archivos temporales
+*.log
+*.tmp
